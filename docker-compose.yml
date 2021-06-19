@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  vault:
+    image: vault
+    restart: unless-stopped
+    command: ['vault', 'server', '-config=/vault/config/config.json']
+#    environment:
+#      VAULT_DEV_ROOT_TOKEN_ID: '56gO1gnu7bYOSBoDrWNC8qme'
+    volumes:
+      - ./file:/vault/file:rw
+      - ./vault:/vault/config:rw
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - 8200:8200
+
+  app:
+    image: poc-vault-env
+    build:
+      context: api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      VAULT_HOST: 'http://vault:8200/'
+      VAULT_TOKEN: 's.texuL36eV0V71GHLF4t1Ip5G'
+    ports:
+      - 8080:8080
+    depends_on:
+      - vault
