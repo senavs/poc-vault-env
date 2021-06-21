@@ -15,7 +15,7 @@ class DeploymentSettings(BaseSettings):
     ECS_PORT: int = vault_kv.get_pydantic('PORT')  # required
     ECS_DEBUG: bool = vault_kv.get_pydantic('DEBUG', False)  # secret as default value
     ECS_RELOAD: bool = vault_kv.get_pydantic('RELOAD', False)  # secret as default value
-    ECS_LOG_LEVEL: bool = vault_kv.get_pydantic('LOG_LEVEL', 'info')  # secret as default value
+    ECS_LOG_LEVEL: str = vault_kv.get_pydantic('LOG_LEVEL', 'info')  # secret as default value
 
 
 class ServicesURLSettings:
